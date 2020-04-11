@@ -1,5 +1,17 @@
-Testing
-<div *ngFor="let island of islandList">
-  {{island.name}} Row here---
-</div>
-{{islandList.length}}
+<h2>Island listing</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Island</th>
+      <th class="number-column">Price</th>
+      <th class="number-column">Local time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let island of islandData | async">
+      <td>{{island.name}}</td>
+      <td class="number-column">{{island.price}}</td>
+      <td class="number-column">{{island.date | date}}</td>
+    </tr>
+  </tbody>
+</table>
