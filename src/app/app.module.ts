@@ -12,6 +12,7 @@ import { IslandNewComponent } from './island-new/island-new.component';
 import { RouterModule } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
       measurementId: 'G-HFPM18TDMY',
     }),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

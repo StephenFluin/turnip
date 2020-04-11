@@ -5,6 +5,7 @@
       <th>Island</th>
       <th class="number-column">Price</th>
       <th class="number-column">Local time</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -12,6 +13,8 @@
       <td>{{island.name}}</td>
       <td class="number-column">{{island.price}}</td>
       <td class="number-column">{{island.date | date}}</td>
+      <td>{{island.description}}</td>
+      <td><button type="button">Enqueue</button></td>
     </tr>
   </tbody>
 </table>
