@@ -1,1 +1,161 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.main {
+  padding: 0 24px 24px;
+  min-height:50vh;
+}
+
+.toolbar {
+  background-color: lightgray;
+  padding: 16px 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .user-details {
+      display: flex;
+      align-items: center;
+
+      .user-img {
+          height: 32px;
+          width: 32px;
+          border-radius: 100%;
+          border: 1px solid gray;
+          margin-right: 4px;
+      }
+  }
+
+  span {
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+  }
+}
+
+input {
+  height:32px;
+  padding:8px;
+}
+button {
+  border-radius: 4px;
+  height: 32px;
+  font-size: 16px;
+  display: inline-flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+
+  &:not(:first-child) {
+      margin-left: 4px;
+  }
+
+  &:hover {
+      opacity: 0.8;
+  }
+
+  &.button-standard {
+      background-color: #ced4da;
+      color: #333;
+
+      span {
+          line-height: 20px;
+      }
+  }
+
+  &.button-icon-combo {
+      img {
+          margin-right: 4px;
+      }
+  }
+
+  &.button-important {
+      font-weight: bold;
+  }
+}
+
+a, a:visited {
+  color:white;
+}
+
+
+// Dark Theme
+body {
+  background-color: #161d2e !important;
+  color: #eee !important;
+
+
+  .highlight-box {
+      background-color: #161d2e !important;
+      color: white !important;
+      border: 1px solid #717b94 !important;
+  }
+
+  select.custom-select,
+  input {
+      background-color: #555963 !important;
+      color: white !important;
+      border: none;
+  }
+
+  .toolbar {
+      background-color: #0a101f !important;
+  }
+
+  .icon-circle {
+      background-color: #717b94 !important;
+      color: black !important;
+
+  }
+
+  button:not(.activity-type) {
+      background-color: #a3a9bb !important;
+      color: black !important;
+      font-weight: bold !important;
+  }
+
+  button.activity-type {
+      background-color: #406E8E !important;
+  }
+}
+
+.queue {
+  display:flex;
+  flex-wrap:wrap;
+}
+.person {
+  margin:16px;
+  border:1px solid #161d2e;
+  text-align:center;
+}
+.person img {
+  width:250px;
+}
+.person div:first-child {
+  text-overflow: ellipsis;
+  width:250px;
+}
+
+@media (max-width: 500px) {
+  .queue {
+    display:flex;
+    flex-wrap:nowrap;
+    flex-direction:column;
+    align-items:center;
+  }
+}

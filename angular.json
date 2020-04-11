@@ -121,8 +121,16 @@
               "devServerTarget": "turnip:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
-  "defaultProject": "turnip"
+    }
+  },
+  "defaultProject": "turnip",
+  "cli": {
+    "analytics": "28d90432-08d6-4625-9349-6b64e31c61a8"
+  }
 }

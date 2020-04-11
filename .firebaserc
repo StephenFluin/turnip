@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "turnip-9775c": {
+      "hosting": {
+        "turnip": [
+          "turnip-9775c"
+        ]
+      }
+    }
+  }
+}
