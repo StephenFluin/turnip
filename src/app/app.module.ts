@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { routes } from './routes';
@@ -21,6 +22,7 @@ import { RouterModule} from '@angular/router';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],
