@@ -8,16 +8,18 @@ import { auth } from 'firebase/app';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private afAuth: AngularFireAuth) {}
+  authUser = this.afAuth.user;
+  constructor(private afAuth: AngularFireAuth) {
+
+  }
 
   loginGoogle() {
-    console.log('auth is',auth);
     this.afAuth.signInWithPopup(new auth.GoogleAuthProvider());
   }
-  loginTwitter() {
-    this.afAuth.signInWithPopup(new auth.TwitterAuthProvider());
-  }
-  loginFB() {
-    this.afAuth.signInWithPopup(new auth.FacebookAuthProvider());
-  }
+  // loginTwitter() {
+  //   this.afAuth.signInWithPopup(new auth.TwitterAuthProvider());
+  // }
+  // loginFB() {
+  //   this.afAuth.signInWithPopup(new auth.FacebookAuthProvider());
+  // }
 }
