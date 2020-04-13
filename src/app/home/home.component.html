@@ -14,7 +14,9 @@
       <td class="number-column">{{island.price}}</td>
       <td class="number-column">{{island.date | date}}</td>
       <td>{{island.description}}</td>
-      <td><button type="button">Enqueue</button></td>
+      <td><button type="button" [routerLink]="['islands',island.key]">Enqueue</button></td>
     </tr>
   </tbody>
 </table>
+
+<button routerLink="/islands/new">New</button>

@@ -1,1 +1,7 @@
-<p>island-new works!</p>
+<form (submit)="createIsland($event, name.value,code.value,description.value)">
+<label>Name <input #name></label>
+<label>Price <input #price type="number"></label>
+<label>Dodo Code<input  #code></label>
+<label>Description<textarea style="height:100px" #description></textarea></label>
+<button type="submit">Create</button>
+</form>

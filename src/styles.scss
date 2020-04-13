@@ -8,6 +8,11 @@ body {
   margin: 0;
 }
 
+label {
+  display:block;
+  padding:5px;
+}
+
 .flex {
   display: flex;
 }
@@ -46,7 +51,7 @@ body {
   }
 }
 
-input {
+input,textarea {
   height:32px;
   padding:8px;
 }
@@ -107,7 +112,7 @@ body {
   }
 
   select.custom-select,
-  input {
+  input,textarea {
       background-color: #555963 !important;
       color: white !important;
       border: none;
