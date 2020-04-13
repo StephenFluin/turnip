@@ -21,14 +21,14 @@ export class IslandNewComponent implements OnDestroy {
     });
   }
 
-  createIsland(event, name, code, description) {
+  createIsland(event, name, price, code, description) {
     event.preventDefault();
-    console.log('island created', name, code, description);
 
     this.db
       .object(`/islands/${this.syncUid}`)
       .set({
         name,
+        price,
         code,
         description,
         date: new Date().toISOString(),
