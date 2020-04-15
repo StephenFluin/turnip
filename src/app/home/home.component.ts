@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
 import { Island } from '../island';
+import { keyedValue } from '../keyed-value';
 
 
 @Component({
@@ -12,14 +13,7 @@ import { Island } from '../island';
 export class HomeComponent {
   islands: AngularFireList<Island> = this.db.list('/islands');
   islandData = this.islands.snapshotChanges().pipe(
-    map((actions) =>
-      actions.map((a) => {
-        const data = a.payload.val();
-        const key = a.payload.key;
-        const value = { key, ...data };
-        return value;
-      })
-    )
+    keyedValue,
   );
 
   constructor(private db: AngularFireDatabase) {}

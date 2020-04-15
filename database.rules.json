@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".read": true,
+    "islands": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "private": {
+      ".read": false
+    }
+  }
+}

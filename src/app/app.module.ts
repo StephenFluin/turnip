@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     }),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,1 +1,7 @@
-<p>island-view works!</p>
+<div *ngIf="islandData | async as island">
+  <div>{{ island.name }}</div>
+  <div class="number-column">{{ island.price }}</div>
+  <div class="number-column">{{ island.date | date }}</div>
+  <div>{{ island.description }}</div>
+  <div><button type="button" (click)="queue(island.key)">Queue</button></div>
+</div>

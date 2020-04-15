@@ -1,0 +1,7 @@
+23:07:45.337 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+23:07:45.447 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+23:09:09.853 [Thread-1] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+23:09:09.859 [NamespaceSystem-akka.actor.default-dispatcher-8] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: turnip-9775c
+23:09:09.865 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for turnip-9775c
+23:09:09.865 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for turnip-9775c
+23:09:09.869 [Thread-1] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
