@@ -4,7 +4,7 @@
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "serve": "yarn build && firebase emulators:start --only functions,database",
+    "serve": "yarn build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
@@ -28,5 +28,11 @@
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   },
-  "private": true
+  "private": true,
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 120
+  }
 }

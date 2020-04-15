@@ -5,3 +5,5 @@
   <div>{{ island.description }}</div>
   <div><button type="button" (click)="queue(island.key)">Queue</button></div>
 </div>
+<h2>Queue Data</h2>
+{{queueData | async | json}}
