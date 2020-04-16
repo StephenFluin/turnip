@@ -70,7 +70,10 @@ export class IslandViewComponent {
         this.queueChange.next(true);
       });
   }
-  remove(islandId: string, uid: string) {
+  remove(islandId: string, uid: string = null) {
+    if (!uid) {
+      uid = this.auth.syncUid;
+    }
     this.http
       .post(`${environment.endpoint}/islands/${islandId}/removeFromQueue`, { token: this.auth.syncToken, target: uid })
       .subscribe((result) => {

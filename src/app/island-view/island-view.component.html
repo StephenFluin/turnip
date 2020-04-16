@@ -18,7 +18,10 @@
       {{ queue | json }}
       <div>Queue Length: {{ queue.queueLength}}</div>
       <div *ngIf="queue.status !== 'not-queued'">Queue Position: {{ queue.position}}</div>
-      <div *ngIf="queue.status === 'ready'" style="font-size: 2em;color:red;">It's your turn! Join with code: {{queue.code}}</div>
+      <div *ngIf="queue.status === 'ready'" style="font-size: 2em;color:red;">
+        It's your turn! Join with code: {{queue.code}}
+        <button (click)="remove(island.key)">I'm finished, leave the queue</button>
+      </div>
 
     </ng-container>
   </ng-container>
