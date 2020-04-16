@@ -7,7 +7,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
-import { combineLatest, Subject, BehaviorSubject } from 'rxjs';
+import { combineLatest, BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'app-island-view',
   templateUrl: './island-view.component.html',
@@ -24,12 +25,27 @@ export class IslandViewComponent {
 
   queueChange = new BehaviorSubject(true);
 
-  queueData = combineLatest([this.afAuth.user.pipe(switchMap((user) => user.getIdToken())), this.route.paramMap, this.queueChange]).pipe(
+  queueData = combineLatest([
+    this.afAuth.user.pipe(switchMap((user) => user.getIdToken())),
+    this.route.paramMap,
+    this.queueChange,
+  ]).pipe(
     switchMap(([token, params]) => {
-      console.log('new queuedata', token, params);
-      return this.http.get(`${environment.endpoint}/islands/${params.get('id')}/status`, {
+      return this.http.get<any>(`${environment.endpoint}/islands/${params.get('id')}/status`, {
         params: { token },
       });
+    }),
+    map((data) => {
+      if (data.myQueue) {
+        return {
+          myQueue: Object.keys(data.myQueue).map((key) => ({
+            key,
+            value: data.myQueue[key],
+          })),
+        };
+      } else {
+        return data;
+      }
     })
   );
   constructor(
@@ -43,13 +59,21 @@ export class IslandViewComponent {
     console.log('nexting queuechange');
   }
 
-  queue(islandId) {
+  queue(islandId: string) {
     this.http
       .post(`${environment.endpoint}/islands/${islandId}/queue`, {
         token: this.auth.syncToken,
         name: this.auth.syncName,
       })
-      .subscribe(result => {
+      .subscribe((result) => {
+        console.log(result);
+        this.queueChange.next(true);
+      });
+  }
+  remove(islandId: string, uid: string) {
+    this.http
+      .post(`${environment.endpoint}/islands/${islandId}/removeFromQueue`, { token: this.auth.syncToken, target: uid })
+      .subscribe((result) => {
         console.log(result);
         this.queueChange.next(true);
       });

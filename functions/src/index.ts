@@ -44,55 +44,129 @@ app.post('/islands/:destination/queue', (req, res) => {
       res.status(500);
     });
 });
+app.post('/islands/:destination/removeFromQueue', (req, res) => {
+  const destination = req.params['destination'];
+  const target = req.body['target'];
+  verifyToken(req)
+    .then((decoded) => {
+      const db = admin.database();
+      const ref = db.ref(`/private/queues/${destination}`);
+      let removed = false;
+      ref
+        .once('value')
+        .then((queueSnapshot) => {
+          const queue = <any>queueSnapshot.toJSON();
+          for (const key of Object.keys(queue)) {
+            if (
+              // Allow users to delete themselves
+              queue[key].uid === decoded.uid ||
+              // Or let islands delete anyone from their queue
+              (queue[key].uid === target && decoded.uid === destination)
+            ) {
+              db.ref(`/private/queues/${destination}/${key}`)
+                .remove()
+                .then(() => {
+                  res.send({ message: 'removed' });
+                })
+                .catch((err) => {
+                  console.error(err);
+                  res.status(500).send({ message: 'error, could not remove' });
+                });
+              removed = true;
+              break;
+            } else {
+              console.debug(`queue uid: ${queue[key].uid}, target: ${target}, uid: ${decoded.uid}, destination: ${destination}`)
+            }
+          }
+          if(!removed) {
+            res.send({message: 'could not find item to remove with right permissions'});
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.send({ message: 'could not find queue' });
+        });
+
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500);
+    });
+});
 
 app.get('/islands/:destination/status', (req, res) => {
   const destination = req.params['destination'];
   const db = admin.database();
   verifyToken(req)
     .then((decoded) => {
-      const ref = db.ref(`/private/queues/${destination}`);
-      return Promise.all([ref.once('value'), Promise.resolve(decoded.uid)]);
-    })
-    .then(([value, uid]) => {
-      // Temporary for debugging, to figure out how to parse the values...
-      // One of: Not Queued, Queued but not ready, or ready
-      const queue: { [key: string]: {name:string,uid:string} } = <any>value.toJSON();
-      let status: 'not-queued' | 'ready' | 'not-ready' = 'not-queued';
+      if(decoded.uid === destination) {
+        // Island Owner
+        const ref = db.ref(`/private/queues/${destination}`);
+          ref.once('value').then(queueSnapshot => {
+            const queue = queueSnapshot.toJSON() || {};
+            res.send({myQueue:queue});
+          })
+          .catch(err => {
+            console.error(err);
+            res.status(500).send({message: 'could not read island queue'});
+          })
+      } else {
+        // Island Visitor
+        const ref = db.ref(`/private/queues/${destination}`);
+        Promise.all([ref.once('value'), Promise.resolve(decoded.uid)])
+        .then(([value, uid]) => {
 
-      const queueLength = Object.keys(queue).length;
-      let position = 1;
-      for (const key of Object.keys(queue)) {
-        if (queue[key].uid === uid) {
-          if (position > 3) {
-            status = 'not-ready';
-            break;
-          } else {
-            status = 'ready';
-            break;
+          // One of: Not Queued, Queued but not ready, or ready
+          const queue: { [key: string]: { name: string; uid: string } } = <any>value.toJSON();
+          if(!queue) {
+            res.send({status:'not-queued',queueLength: 0});
+            return;
           }
-        }
-        position++;
-      }
+          let status: 'not-queued' | 'ready' | 'not-ready' = 'not-queued';
 
-      if(status === 'ready') {
-        db.ref(`/user/${destination}/code`).once('value')
-        .then(code => {
-          console.log("code is",code);
-          res.send({status,queueLength,position,code});
+          const queueLength = Object.keys(queue).length;
+          let position = 1;
+          for (const key of Object.keys(queue)) {
+            if (queue[key].uid === uid) {
+              if (position > 3) {
+                status = 'not-ready';
+                break;
+              } else {
+                status = 'ready';
+                break;
+              }
+            }
+            position++;
+          }
+
+          if (status === 'ready') {
+            db.ref(`/user/${destination}/code`)
+              .once('value')
+              .then((code) => {
+                console.log('code is', code.toJSON());
+                res.send({ status, queueLength, position, code });
+              })
+              .catch((err) => {
+                console.error(err);
+                res.status(404).send('Could not find a dodo code for this island');
+              });
+          } else {
+            res.send({ status, queueLength, position });
+          }
         })
         .catch(err => {
           console.error(err);
-          res.status(404).send('Could not find a dodo code for this island');
+          res.status(500).send({message: 'error in queue lookup'});
         });
 
-      } else {
-        res.send({status,queueLength,position});
       }
+
     })
     .catch((err) => {
       console.error(err);
-      res.status(500);
+      res.status(500).send({message: 'error in token verification'});
     });
+
 });
 
 export const api = functions.https.onRequest(app);
