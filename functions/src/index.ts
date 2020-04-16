@@ -14,10 +14,6 @@ admin.initializeApp({
   databaseURL: 'https://turnip-9775c.firebaseio.com',
 });
 
-export const helloWorld = functions.https.onRequest((request, response) => {
-  response.send({ msg: 'Hello from Firebase!', data: request.body, query: request.query });
-});
-
 app.get('/adduser', (req, res) => {
   res.send('hi');
   const db = admin.database();
