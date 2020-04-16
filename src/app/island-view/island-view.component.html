@@ -8,21 +8,22 @@
   <ng-container *ngIf="queueData | async as queue">
     <ng-container *ngIf="queue.myQueue || queue.myQueue === null">
       <h2>Manage your queue:</h2>
-      <p>{{queue.myQueue.length}} in the queue</p>
+      <p>{{ queue.myQueue.length }} in the queue</p>
       <div *ngFor="let item of queue.myQueue; index as i">
         {{ i + 1 }}. {{ item.value | json }} <button (click)="remove(island.key, item.value.uid)">Remove</button>
       </div>
     </ng-container>
     <ng-container *ngIf="!queue.myQueue">
       <h2>Queue Data</h2>
-      {{ queue | json }}
-      <div>Queue Length: {{ queue.queueLength}}</div>
-      <div *ngIf="queue.status !== 'not-queued'">Queue Position: {{ queue.position}}</div>
-      <div *ngIf="queue.status === 'ready'" style="font-size: 2em;color:red;">
-        It's your turn! Join with code: {{queue.code}}
-        <button (click)="remove(island.key)">I'm finished, leave the queue</button>
+      <div *ngIf="queue.status === 'ready'" style="font-size: 2em; color: red;">
+        It's your turn! Join with code: {{ queue.code }}
       </div>
 
+      <div>Queue Length: {{ queue.queueLength }}</div>
+      <div *ngIf="queue.status !== 'not-queued'">
+        Queue Position: {{ queue.position }}
+        <div><button (click)="remove(island.key)">Leave the queue</button></div>
+      </div>
     </ng-container>
   </ng-container>
 </div>
